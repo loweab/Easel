@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.pavelsikun.vintagechroma.ChromaDialog;
+import com.pavelsikun.vintagechroma.IndicatorMode;
+import com.pavelsikun.vintagechroma.OnColorSelectedListener;
+import com.pavelsikun.vintagechroma.colormode.ColorMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,6 +25,8 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.fab_small) FloatingActionButton fabSmall;
     @BindView(R.id.fab_medium) FloatingActionButton fabMedium;
     @BindView(R.id.fab_large) FloatingActionButton fabLarge;
+    @BindView(R.id.fab_color)
+    FloatingActionButton fabColor;
 
     private Animation fabOpen, fabClose;
 
@@ -36,7 +43,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    @OnClick({R.id.fab, R.id.fab_large, R.id.fab_medium, R.id.fab_small, R.id.fab_fine, R.id.fab_superfine})
+    @OnClick({R.id.fab, R.id.fab_color, R.id.fab_large, R.id.fab_medium, R.id.fab_small,
+            R.id.fab_fine, R.id.fab_superfine})
     public void pressFab(View view){
         float superfineBrush = getResources().getInteger(R.integer.superfine_size);
         float fineBrush = getResources().getInteger(R.integer.fine_size);
@@ -47,6 +55,9 @@ public class MainActivity extends AppCompatActivity{
         switch (view.getId()){
             case R.id.fab:
                 animateFAB();
+                break;
+            case R.id.fab_color:
+                showColorPickerDialog();
                 break;
             case R.id.fab_superfine:
                 clickBrush(superfineBrush);
@@ -100,4 +111,20 @@ public class MainActivity extends AppCompatActivity{
         drawingView.setBrushSize(brushSize);
         animateFAB();
     }
+
+    private void showColorPickerDialog() {
+        new ChromaDialog.Builder()
+                .initialColor(drawingView.getColor())
+                .colorMode(ColorMode.RGB)
+                .indicatorMode(IndicatorMode.HEX)
+                .onColorSelected(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int newColor) {
+                        drawingView.setColor(newColor);
+                    }
+                })
+                .create()
+                .show(getSupportFragmentManager(), "dialog");
+    }
+
 }

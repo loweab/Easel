@@ -77,10 +77,14 @@ public class DrawingView extends View{
         return true;
     }
 
-    public void setColor(String newColor){
+    public void setColor(int newColor) {
         invalidate();
-        paintColor = Color.parseColor(newColor);
-        drawPaint.setColor(paintColor);
+        this.paintColor = newColor;
+        drawPaint.setColor(newColor);
+    }
+
+    public int getColor() {
+        return this.paintColor;
     }
 
     public void setBrushSize(float newSize){
