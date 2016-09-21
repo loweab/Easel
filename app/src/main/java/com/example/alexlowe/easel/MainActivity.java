@@ -3,7 +3,6 @@ package com.example.alexlowe.easel;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -51,23 +50,18 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.fab_superfine:
                 clickBrush(superfineBrush);
-                Log.d("Raj", "Fab 1");
                 break;
             case R.id.fab_fine:
                 clickBrush(fineBrush);
-                Log.d("Raj", "Fab 2");
                 break;
             case R.id.fab_small:
                 clickBrush(smallBrush);
-                Log.d("Raj", "Fab 2");
                 break;
             case R.id.fab_medium:
                 clickBrush(mediumBrush);
-                Log.d("Raj", "Fab 2");
                 break;
             case R.id.fab_large:
                 clickBrush(largeBrush);
-                Log.d("Raj", "Fab 2");
                 break;
         }
     }
@@ -86,8 +80,6 @@ public class MainActivity extends AppCompatActivity{
             fabMedium.setClickable(false);
             fabLarge.setClickable(false);
             isFabOpen = false;
-            Log.d("Raj", "close");
-
         } else {
 
             fabSuperfine.startAnimation(fabOpen);
@@ -101,7 +93,6 @@ public class MainActivity extends AppCompatActivity{
             fabMedium.setClickable(true);
             fabLarge.setClickable(true);
             isFabOpen = true;
-            Log.d("Raj", "open");
         }
     }
 
