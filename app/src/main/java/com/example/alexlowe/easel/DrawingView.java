@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -20,6 +22,7 @@ public class DrawingView extends View{
     private Bitmap canvasBitmap;
 
     private float brushSize;
+    private boolean erase = false;
 
     public DrawingView (Context context, AttributeSet attrs){
         super(context, attrs);
@@ -92,4 +95,23 @@ public class DrawingView extends View{
                 newSize, getResources().getDisplayMetrics());
         drawPaint.setStrokeWidth(brushSize);
     }
+
+    public void setErase(boolean erase) {
+        this.erase = erase;
+        if (erase) {
+            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            drawPaint.setXfermode(null);
+        }
+    }
+
+    public boolean getErase() {
+        return this.erase;
+    }
+
+    public void startNew() {
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
+    }
+
 }

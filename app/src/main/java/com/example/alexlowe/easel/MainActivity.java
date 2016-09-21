@@ -1,7 +1,10 @@
 package com.example.alexlowe.easel;
 
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -27,10 +30,15 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.fab_large) FloatingActionButton fabLarge;
     @BindView(R.id.fab_color)
     FloatingActionButton fabColor;
+    @BindView(R.id.fab_erase)
+    FloatingActionButton fabErase;
+    @BindView(R.id.fab_new)
+    FloatingActionButton fabNew;
 
     private Animation fabOpen, fabClose;
 
     private Boolean isFabOpen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    @OnClick({R.id.fab, R.id.fab_color, R.id.fab_large, R.id.fab_medium, R.id.fab_small,
+    @OnClick({R.id.fab, R.id.fab_color, R.id.fab_erase, R.id.fab_new, R.id.fab_large, R.id.fab_medium, R.id.fab_small,
             R.id.fab_fine, R.id.fab_superfine})
     public void pressFab(View view){
         float superfineBrush = getResources().getInteger(R.integer.superfine_size);
@@ -58,6 +66,12 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.fab_color:
                 showColorPickerDialog();
+                break;
+            case R.id.fab_erase:
+                toggleErase();
+                break;
+            case R.id.fab_new:
+                showNewDialog();
                 break;
             case R.id.fab_superfine:
                 clickBrush(superfineBrush);
@@ -126,5 +140,43 @@ public class MainActivity extends AppCompatActivity{
                 .create()
                 .show(getSupportFragmentManager(), "dialog");
     }
+
+    private void toggleErase() {
+        drawingView.setErase(!drawingView.getErase());
+        int eraseBackground = (drawingView.getErase()) ?
+                getResources().getColor(R.color.colorErase) :
+                getResources().getColor(R.color.colorFab);
+        fabErase.setBackgroundTintList(ColorStateList.valueOf(eraseBackground));
+    }
+
+    private void showNewDialog() {
+        AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+        newDialog.setTitle("New Drawing");
+        newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+        newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                drawingView.startNew();
+                dialog.dismiss();
+            }
+        });
+        newDialog.setNegativeButton("Cancel", null);
+        newDialog.show();
+    }
+
+/*    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                layoutToolbar.setVisibility(View.INVISIBLE);
+                break;
+            case MotionEvent.ACTION_UP:
+                layoutToolbar.setVisibility(View.VISIBLE);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }*/
 
 }

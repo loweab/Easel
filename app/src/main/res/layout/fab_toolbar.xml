@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar_layout"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_width="wrap_content">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/expanding_fab"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFab"
+        app:pressedTranslationZ="12dp"
+        android:layout_toLeftOf="@+id/fab_erase"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/color_icon"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_erase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/expanding_fab"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFab"
+        app:pressedTranslationZ="12dp"
+        android:layout_toLeftOf="@+id/fab_color"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/color_icon"/>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_color"
