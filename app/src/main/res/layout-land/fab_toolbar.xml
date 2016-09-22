@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/toolbar_layout"
+              android:layout_gravity="center"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+    >
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFab"
+        android:layout_gravity="bottom"
+        app:pressedTranslationZ="12dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_note_add_black_24dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_erase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFab"
+        app:pressedTranslationZ="12dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/eraser_variant_3"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFab"
+        android:layout_gravity="bottom"
+        app:pressedTranslationZ="12dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_color_lens_black_24dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/expanding_fab"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_superfine"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorFab"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/superfine"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_fine"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
+            app:backgroundTint="@color/colorFab"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/fine"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_small"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
+            app:backgroundTint="@color/colorFab"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/small"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
+            app:backgroundTint="@color/colorFab"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/medium"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_large"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorFab"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/large"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:elevation="6dp"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorFab"
+            app:pressedTranslationZ="12dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_brush_black_24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

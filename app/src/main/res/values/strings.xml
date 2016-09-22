@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Easel</string>
+    <string name="color_dialog_tag">dialog</string>
+    <string name="new_drawing">New Drawing</string>
+    <string name="new_draw_msg">Start new drawing (you will lose the current drawing)?</string>
+    <string name="yes">Yes</string>
+    <string name="save_drawing">Save drawing</string>
+    <string name="save_draw_msg">Save drawing to device Gallery(must have external storage availible)?</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_image_desc">Paint Drawing</string>
+    <string name="share_title">Share Image</string>
 </resources>

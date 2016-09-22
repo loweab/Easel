@@ -15,7 +15,6 @@ import android.view.View;
 public class DrawingView extends View{
     private Path drawPath;
     private Paint drawPaint;
-    private Paint canvasPaint;
     private int paintColor = Color.BLACK;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
@@ -31,7 +30,7 @@ public class DrawingView extends View{
     private void setupDrawing() {
         brushSize = getResources().getInteger(R.integer.small_size);
         drawPath = new Path();
-        drawPaint = new Paint();
+        drawPaint = new Paint(Paint.DITHER_FLAG);
 
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
@@ -39,8 +38,6 @@ public class DrawingView extends View{
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     @Override
@@ -52,7 +49,7 @@ public class DrawingView extends View{
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
+        canvas.drawBitmap(canvasBitmap, 0, 0, drawPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
 
