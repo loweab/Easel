@@ -12,7 +12,7 @@ public interface DrawingInterface {
 
     void showSaveDialog();
 
-    //should all interfaces return void?
+    //should all interfaces return void? ANS: no they don't have to
     String saveImage();
 
     void sendShareIntent(File file);

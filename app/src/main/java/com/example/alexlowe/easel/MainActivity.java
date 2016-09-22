@@ -144,9 +144,9 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     @Override
     public void showColorDialog() {
         new ChromaDialog.Builder()
-                //is this the view having knowledge of the model?
-                //should I have a presenter return a value?
-                .initialColor(drawingView.getColor())
+                //is this the view having knowledge of the model? ANS: Yes
+                //should I have a presenter return a value? ANS: yes I can do that
+                .initialColor(presenter.getColor())
                 .colorMode(ColorMode.RGB)
                 .indicatorMode(IndicatorMode.HEX)
                 .onColorSelected(new OnColorSelectedListener() {

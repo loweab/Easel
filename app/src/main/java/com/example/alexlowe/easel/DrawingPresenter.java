@@ -86,4 +86,7 @@ public class DrawingPresenter {
         }
     }
 
+    public int getColor() {
+        return drawingView.getColor();
+    }
 }
