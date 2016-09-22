@@ -32,7 +32,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_CAT = "rimjob";
     @BindView(R.id.drawing)
     DrawingView drawingView;
     @BindView(R.id.fab)
@@ -58,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean isFabOpen = false;
 
+    private FloatingActionButton pressedFab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.fab, R.id.fab_color, R.id.fab_erase, R.id.fab_new, R.id.fab_large, R.id.fab_medium, R.id.fab_small,
             R.id.fab_fine, R.id.fab_superfine})
-    public void pressFab(View view) {
-        float superfineBrush = getResources().getInteger(R.integer.superfine_size);
-        float fineBrush = getResources().getInteger(R.integer.fine_size);
-        float mediumBrush = getResources().getInteger(R.integer.medium_size);
-        float largeBrush = getResources().getInteger(R.integer.large_size);
-        float smallBrush = getResources().getInteger(R.integer.small_size);
-
+    public void pressFabToolbar(View view) {
         switch (view.getId()) {
             case R.id.fab:
                 animateFAB();
@@ -92,22 +87,54 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fab_new:
                 showNewDialog();
                 break;
+        }
+    }
+
+    @OnClick({R.id.fab_large, R.id.fab_medium, R.id.fab_small, R.id.fab_fine, R.id.fab_superfine})
+    public void pressBrush(View view) {
+        float superfineBrush = getResources().getInteger(R.integer.superfine_size);
+        float fineBrush = getResources().getInteger(R.integer.fine_size);
+        float mediumBrush = getResources().getInteger(R.integer.medium_size);
+        float largeBrush = getResources().getInteger(R.integer.large_size);
+        float smallBrush = getResources().getInteger(R.integer.small_size);
+
+        switch (view.getId()) {
             case R.id.fab_superfine:
-                clickBrush(superfineBrush);
+                clickBrush(superfineBrush, view);
                 break;
             case R.id.fab_fine:
-                clickBrush(fineBrush);
+                clickBrush(fineBrush, view);
                 break;
             case R.id.fab_small:
-                clickBrush(smallBrush);
+                clickBrush(smallBrush, view);
                 break;
             case R.id.fab_medium:
-                clickBrush(mediumBrush);
+                clickBrush(mediumBrush, view);
                 break;
             case R.id.fab_large:
-                clickBrush(largeBrush);
+                clickBrush(largeBrush, view);
                 break;
         }
+    }
+
+    private void clickBrush(float brushSize, View view) {
+        drawingView.setBrushSize(brushSize);
+        if (pressedFab != null) {
+            pressedFab.setBackgroundTintList(ColorStateList.valueOf(getResources()
+                    .getColor(R.color.colorFab)));
+        }
+        pressedFab = (FloatingActionButton) view;
+        pressedFab.setBackgroundTintList(ColorStateList.valueOf(getResources()
+                .getColor(R.color.colorPressedFab)));
+        animateFAB();
+    }
+
+    private void toggleErase() {
+        drawingView.setErase(!drawingView.getErase());
+        int eraseBackground = (drawingView.getErase()) ?
+                getResources().getColor(R.color.colorPressedFab) :
+                getResources().getColor(R.color.colorFab);
+        fabErase.setBackgroundTintList(ColorStateList.valueOf(eraseBackground));
     }
 
     public void animateFAB() {
@@ -140,11 +167,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void clickBrush(float brushSize) {
-        drawingView.setBrushSize(brushSize);
-        animateFAB();
-    }
-
     private void showColorPickerDialog() {
         new ChromaDialog.Builder()
                 .initialColor(drawingView.getColor())
@@ -161,13 +183,6 @@ public class MainActivity extends AppCompatActivity {
                 .show(getSupportFragmentManager(), "dialog");
     }
 
-    private void toggleErase() {
-        drawingView.setErase(!drawingView.getErase());
-        int eraseBackground = (drawingView.getErase()) ?
-                getResources().getColor(R.color.colorErase) :
-                getResources().getColor(R.color.colorFab);
-        fabErase.setBackgroundTintList(ColorStateList.valueOf(eraseBackground));
-    }
 
     private void showNewDialog() {
         AlertDialog.Builder newDialog = new AlertDialog.Builder(this);

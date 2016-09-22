@@ -17,7 +17,7 @@ public class DrawingView extends View{
     private Paint drawPaint;
     private Paint canvasPaint;
     private int paintColor = Color.BLACK;
-    private int tempColor;
+    private int tempColor = paintColor;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
 
