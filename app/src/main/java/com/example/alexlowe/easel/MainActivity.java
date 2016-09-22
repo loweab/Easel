@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     public void pressLarge(View view) {
         float largeBrush = getResources().getInteger(R.integer.large_size);
         presenter.onBrushClicked(largeBrush);
-        //this method could also be part of the presenter, but it would involve passing the presenter a view
         setBrushSelection(view);
     }
 
@@ -144,8 +143,6 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     @Override
     public void showColorDialog() {
         new ChromaDialog.Builder()
-                //is this the view having knowledge of the model? ANS: Yes
-                //should I have a presenter return a value? ANS: yes I can do that
                 .initialColor(presenter.getColor())
                 .colorMode(ColorMode.RGB)
                 .indicatorMode(IndicatorMode.HEX)
@@ -198,10 +195,9 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     @Override
     public String saveImage() {
         //needs background thread
-        //should I be getting the drawing cache back from the presenter?
         return MediaStore.Images.Media.insertImage(
                 getContentResolver(),
-                drawingView.getDrawingCache(),
+                presenter.getDrawingBitmap(),
                 UUID.randomUUID().toString() + ".png", getString(R.string.save_image_desc));
     }
 
