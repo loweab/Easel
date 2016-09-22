@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onColorSelected(int newColor) {
                         drawingView.setColor(newColor);
+                        drawingView.setErase(drawingView.getErase());
                     }
                 })
                 .create()

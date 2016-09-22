@@ -17,7 +17,7 @@
         android:layout_toLeftOf="@+id/fab_erase"
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="centerCrop"
-        android:src="@drawable/color_icon"/>
+        android:src="@drawable/ic_note_add_black_24dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_erase"
@@ -30,7 +30,7 @@
         android:layout_toLeftOf="@+id/fab_color"
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="centerCrop"
-        android:src="@drawable/color_icon"/>
+        android:src="@drawable/eraser_variant_3"/>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -44,7 +44,7 @@
         android:layout_toLeftOf="@+id/expanding_fab"
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="centerCrop"
-        android:src="@drawable/color_icon"/>
+        android:src="@drawable/ic_color_lens_black_24dp"/>
 
 
     <LinearLayout
@@ -134,7 +134,7 @@
             app:pressedTranslationZ="12dp"
             android:layout_margin="@dimen/fab_margin"
             android:scaleType="centerCrop"
-            android:src="@drawable/brush_icon"/>
+            android:src="@drawable/ic_brush_black_24dp"/>
 
     </LinearLayout>
 
