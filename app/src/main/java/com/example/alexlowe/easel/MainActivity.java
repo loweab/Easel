@@ -1,33 +1,52 @@
 package com.example.alexlowe.easel;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.UUID;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.drawing) DrawingView drawingView;
-    @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.fab_fine) FloatingActionButton fabFine;
-    @BindView(R.id.fab_superfine) FloatingActionButton fabSuperfine;
-    @BindView(R.id.fab_small) FloatingActionButton fabSmall;
-    @BindView(R.id.fab_medium) FloatingActionButton fabMedium;
-    @BindView(R.id.fab_large) FloatingActionButton fabLarge;
+    private static final String LOG_CAT = "rimjob";
+    @BindView(R.id.drawing)
+    DrawingView drawingView;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.fab_fine)
+    FloatingActionButton fabFine;
+    @BindView(R.id.fab_superfine)
+    FloatingActionButton fabSuperfine;
+    @BindView(R.id.fab_small)
+    FloatingActionButton fabSmall;
+    @BindView(R.id.fab_medium)
+    FloatingActionButton fabMedium;
+    @BindView(R.id.fab_large)
+    FloatingActionButton fabLarge;
     @BindView(R.id.fab_color)
     FloatingActionButton fabColor;
     @BindView(R.id.fab_erase)
@@ -47,20 +66,20 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fabClose = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        fabClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
     }
 
 
     @OnClick({R.id.fab, R.id.fab_color, R.id.fab_erase, R.id.fab_new, R.id.fab_large, R.id.fab_medium, R.id.fab_small,
             R.id.fab_fine, R.id.fab_superfine})
-    public void pressFab(View view){
+    public void pressFab(View view) {
         float superfineBrush = getResources().getInteger(R.integer.superfine_size);
         float fineBrush = getResources().getInteger(R.integer.fine_size);
         float mediumBrush = getResources().getInteger(R.integer.medium_size);
         float largeBrush = getResources().getInteger(R.integer.large_size);
         float smallBrush = getResources().getInteger(R.integer.small_size);
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fab:
                 animateFAB();
                 break;
@@ -121,7 +140,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void clickBrush(float brushSize){
+    private void clickBrush(float brushSize) {
         drawingView.setBrushSize(brushSize);
         animateFAB();
     }
@@ -164,19 +183,72 @@ public class MainActivity extends AppCompatActivity{
         newDialog.show();
     }
 
-/*    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                layoutToolbar.setVisibility(View.INVISIBLE);
-                break;
-            case MotionEvent.ACTION_UP:
-                layoutToolbar.setVisibility(View.VISIBLE);
-                break;
-            default:
-                return false;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }*/
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                share();
+                return true;
+            case R.id.action_save:
+                saveDialog();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void share() {
+        drawingView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = drawingView.getDrawingCache();
+
+        try {
+            File file = new File(getApplicationContext().getCacheDir(), "shareImg.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.flush();
+            stream.close();
+
+            Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            intent.setType("image/png");
+            startActivity(Intent.createChooser(intent, "Share image"));
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Share Failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    private void saveDialog() {
+        AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+        saveDialog.setTitle("Save drawing");
+        saveDialog.setMessage("Save drawing to device Gallery?(must have external storage availible)");
+        saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                drawingView.setDrawingCacheEnabled(true);
+                String savedImage = MediaStore.Images.Media.insertImage(
+                        getContentResolver(),
+                        drawingView.getDrawingCache(),
+                        UUID.randomUUID().toString() + ".png", "Paint Drawing");
+
+                if (savedImage != null) {
+                    Toast.makeText(getApplicationContext(), "Drawing saved to gallery!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Oops! Image could not be Saved",
+                            Toast.LENGTH_SHORT).show();
+                }
+                drawingView.destroyDrawingCache();
+            }
+        });
+        saveDialog.setNegativeButton("Cancel", null);
+        saveDialog.show();
+    }
 }

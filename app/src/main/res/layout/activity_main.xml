@@ -8,6 +8,7 @@
 
     <com.example.alexlowe.easel.DrawingView
         android:id="@+id/drawing"
+        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
