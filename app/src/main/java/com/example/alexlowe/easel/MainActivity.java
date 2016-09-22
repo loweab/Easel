@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -176,7 +177,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onColorSelected(int newColor) {
                         drawingView.setColor(newColor);
-                        drawingView.setErase(drawingView.getErase());
+                        if (drawingView.getErase()) {
+                            drawingView.setPaintColor(Color.WHITE);
+                        }
                     }
                 })
                 .create()
