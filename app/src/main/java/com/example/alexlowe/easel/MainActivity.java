@@ -3,6 +3,7 @@ package com.example.alexlowe.easel;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,6 +24,8 @@ import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -194,11 +197,29 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
 
     @Override
     public String saveImage() {
-        //needs background thread
+        //Does this need to be done on background thread?
         return MediaStore.Images.Media.insertImage(
                 getContentResolver(),
                 presenter.getDrawingBitmap(),
                 UUID.randomUUID().toString() + ".png", getString(R.string.save_image_desc));
+    }
+
+    @Override
+    public File getFileFromBitmap(Bitmap bitmap) {
+        File file = new File(this.getCacheDir(), "shareImg.png");
+        FileOutputStream stream = null;
+
+        try {
+            stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.flush();
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showToast("Share Failed");
+        }
+
+        return file;
     }
 
     @Override

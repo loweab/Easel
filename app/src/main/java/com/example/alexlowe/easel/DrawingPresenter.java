@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 public class DrawingPresenter {
 
@@ -71,19 +70,8 @@ public class DrawingPresenter {
     public void onClickShare() {
         drawingView.setDrawingCacheEnabled(true);
         Bitmap bitmap = drawingView.getDrawingCache();
-
-        try {
-            File file = new File(drawingView.getContext().getCacheDir(), "shareImg.png");
-            FileOutputStream stream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            stream.flush();
-            stream.close();
-
-            drawingInterface.sendShareIntent(file);
-        } catch (Exception e) {
-            drawingInterface.showToast("Share Failed");
-            e.printStackTrace();
-        }
+        File file = drawingInterface.getFileFromBitmap(bitmap);
+        drawingInterface.sendShareIntent(file);
     }
 
     public int getColor() {
